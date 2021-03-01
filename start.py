@@ -13,7 +13,9 @@ SCOPES = [
           'https://www.googleapis.com/auth/calendar'
          ]
 
-#def is_currently_happening(event):
+def is_currently_happening(event):
+  return True
+
 
 def start():
   creds = None   
@@ -42,21 +44,18 @@ def start():
   events_result = service.events().list(
                             calendarId='primary',
                             timeMin=now,
-                            maxResults=4,
+                            maxResults=1,
                             singleEvents=True,
                             orderBy='startTime'
                           ).execute()
 
   events = events_result.get('items', [])
 
-  os.system(f"firefox {events[0]['hangoutLink']}")
-
-  """
-  for event in events:
-    if is_currently_happening(event):
-      os.system(f'firefox {event["hangoutLink"]}') 
-      break
-  """ 
+  if len(events)==0 or is_currently_happening(events[0]):
+    print("There is no lecture currently.")
+  else:
+    os.system(f'firefox {events[0]["hangoutLink"]}')
+ 
 
 if __name__=='__main__':
   start()
