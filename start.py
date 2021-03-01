@@ -51,7 +51,10 @@ def start():
 
   events = events_result.get('items', [])
 
-  if len(events)==0 or is_currently_happening(events[0]):
+  if len(events) != 0:
+    print(events[0])
+
+  if len(events)==0 or not is_currently_happening(events[0]):
     print("There is no lecture currently.")
   else:
     os.system(f'firefox {events[0]["hangoutLink"]}')
